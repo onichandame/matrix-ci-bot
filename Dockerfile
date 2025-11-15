@@ -1,4 +1,4 @@
-FROM rust:1.91.1-slim-bookworm as builder
+FROM rust:1.91.1-slim-bookworm AS builder
 ADD . /app
 RUN cargo build --release
 
