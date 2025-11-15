@@ -1,0 +1,27 @@
+name: "Matrix CI Bot"
+description: "Sync workflow status to Matrix"
+inputs:
+  room-id: # id of input
+    description: "Which room to send to"
+    required: true
+  username:
+    description: "Matrix bot account username"
+    required: true
+  password:
+    description: "Matrix bot account password"
+    required: true
+  homeserver-url:
+    description: "The Homeserver url"
+    required: true
+runs:
+  using: "docker"
+  image: "ghcr.io/onichandame/matrix-ci-bot:latest"
+  args:
+    - --home-server
+    - ${{ inputs.homeserver-url }}
+    - --username
+    - ${{ inputs.username }}
+    - --password
+    - ${{ inputs.password }}
+    - --room-id
+    - ${{ inputs.room-id }}
