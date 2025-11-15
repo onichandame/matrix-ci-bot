@@ -18,7 +18,7 @@ pub(crate) struct WorkflowRun {
 }
 
 #[derive(serde::Deserialize)]
-#[serde(rename_all = "lowercase")]
+#[serde(rename_all = "snake_case")]
 pub(crate) enum WorkflowStatus {
     Queued,
     InProgress,
