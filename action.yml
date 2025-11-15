@@ -18,10 +18,10 @@ runs:
   image: "docker://ghcr.io/onichandame/matrix-ci-bot:master"
   args:
     - --home-server
-    - ${{ inputs.homeserver-url }}
+    - "${{ inputs.homeserver-url }}"
     - --username
-    - ${{ inputs.username }}
+    - "${{ inputs.username }}"
     - --password
-    - ${{ inputs.password }}
+    - "${{ inputs.password }}"
     - --room-id
-    - ${{ inputs.room-id }}
+    - "${{ inputs.room-id }}"
