@@ -1,3 +1,5 @@
+use std::process;
+
 use anyhow::anyhow;
 use clap::Parser;
 use matrix_sdk::{
@@ -22,6 +24,7 @@ async fn main() {
         }
         Err(e) => {
             log(format!("Failed! {}", e).as_str(), github::LogLevel::Error);
+            process::exit(1);
         }
     }
 }
