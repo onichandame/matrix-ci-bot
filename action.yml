@@ -15,7 +15,7 @@ inputs:
     required: true
 runs:
   using: "docker"
-  image: "ghcr.io/onichandame/matrix-ci-bot:latest"
+  image: "ghcr.io/onichandame/matrix-ci-bot:master"
   args:
     - --home-server
     - ${{ inputs.homeserver-url }}
