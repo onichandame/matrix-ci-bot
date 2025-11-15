@@ -25,6 +25,7 @@ pub(crate) enum WorkflowStatus {
 }
 
 #[derive(serde::Deserialize)]
+#[serde(rename_all = "lowercase")]
 pub(crate) enum WorkflowConclusion {
     Success,
     Failure,
