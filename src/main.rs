@@ -47,7 +47,7 @@ async fn handle() -> anyhow::Result<()> {
         .ok_or(anyhow!("Room not found"))?;
     log("Found Matrix room", github::LogLevel::Info);
     let (status_text, status_color) = match event.workflow_run.status {
-        github::WorkflowStatus::Requested => ("Pending", "gray"),
+        github::WorkflowStatus::Queued => ("Pending", "gray"),
         github::WorkflowStatus::InProgress => ("Running", "blue"),
         github::WorkflowStatus::Completed => match event.workflow_run.conclusion {
             Some(github::WorkflowConclusion::Success) => ("Succeeded", "green"),
