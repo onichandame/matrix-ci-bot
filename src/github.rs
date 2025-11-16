@@ -13,8 +13,14 @@ pub(crate) struct WorkflowRun {
     pub(crate) head_sha: String,
     pub(crate) id: u64,
     pub(crate) repository: Repository,
+    pub(crate) actor: Actor,
     pub(crate) html_url: String,
     pub(crate) conclusion: Option<WorkflowConclusion>,
+}
+
+#[derive(serde::Deserialize)]
+pub(crate) struct Actor {
+    pub(crate) login: String,
 }
 
 #[derive(serde::Deserialize)]
@@ -34,7 +40,8 @@ pub(crate) enum WorkflowConclusion {
 
 #[derive(serde::Deserialize)]
 pub(crate) struct Repository {
-    pub(crate) name: String,
+    pub(crate) full_name: String,
+    pub(crate) html_url: String,
 }
 pub(crate) enum LogLevel {
     Info,

@@ -60,33 +60,38 @@ async fn handle() -> anyhow::Result<()> {
     Branch: {}
     Commit: {}
     Run: {}
+    Actor: {}
     [ci-run:{}]",
         status_icon,
         status_text,
-        event.workflow_run.repository.name,
+        event.workflow_run.repository.full_name,
         event.workflow_run.name,
         event.workflow_run.head_branch,
         event.workflow_run.head_sha,
         event.workflow_run.html_url,
+        event.workflow_run.actor.login,
         event.workflow_run.id
     );
 
     let rich_content = format!(
         "{} <strong>CI Workflow {}</strong><br>
-    • <strong>Repo:</strong> <code>{}</code><br>
+    • <strong>Repo:</strong> <a href=\"{}\"><code>{}</code></a><br>
     • <strong>Workflow:</strong> {}<br>
     • <strong>Branch:</strong> {}<br>
     • <strong>Commit:</strong> {}<br>
-    • <strong>Run:</strong> <a href=\"{}\">{}</a><br><br>
+    • <strong>Run:</strong> <a href=\"{}\">{}</a><br>
+    • <strong>Actor:</strong> <code>{}</code><br><br>
     <code>[ci-run:{}]</code>",
         status_icon,
         status_text,
-        event.workflow_run.repository.name,
+        event.workflow_run.repository.html_url,
+        event.workflow_run.repository.full_name,
         event.workflow_run.name,
         event.workflow_run.head_branch,
         event.workflow_run.head_sha,
         event.workflow_run.html_url,
         event.workflow_run.html_url,
+        event.workflow_run.actor.login,
         event.workflow_run.id
     );
 
