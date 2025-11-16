@@ -1,6 +1,5 @@
 use std::process;
 
-use anyhow::anyhow;
 use clap::Parser;
 use matrix_sdk::{
     Client,
