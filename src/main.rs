@@ -31,7 +31,6 @@ async fn main() {
 
 async fn handle() -> anyhow::Result<()> {
     let cli = Cli::parse();
-    let event = get_workflow_event()?;
     log("Processing workflow status update", github::LogLevel::Info);
     let client = Client::builder()
         .homeserver_url(cli.home_server)
@@ -41,11 +40,11 @@ async fn handle() -> anyhow::Result<()> {
         .matrix_auth()
         .login_username(cli.username, &cli.password)
         .await?;
+    let room_id = RoomId::parse(&cli.room_id)?;
     log("Matrix client logged in", github::LogLevel::Info);
-    let room = client
-        .get_room(&RoomId::parse(cli.room_id)?)
-        .ok_or(anyhow!("Room not found"))?;
+    let room = client.join_room_by_id(&room_id).await?;
     log("Found Matrix room", github::LogLevel::Info);
+    let event = get_workflow_event()?;
     let (status_text, status_color) = match event.workflow_run.status {
         github::WorkflowStatus::Queued => ("Pending", "gray"),
         github::WorkflowStatus::InProgress => ("Running", "blue"),
