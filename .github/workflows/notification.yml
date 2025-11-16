@@ -3,7 +3,7 @@ name: Notification
 on:
   workflow_run:
     workflows: ["Build with Docker"]
-    branches: ["dev"]
+    branches: ["master"]
     types: [completed, in_progress, requested]
 
 jobs:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Notify Workflow Status to Matrix
-        uses: onichandame/matrix-ci-bot@dev
+        uses: onichandame/matrix-ci-bot@master
         with:
           room-id: ${{ secrets.ROOM_ID }}
           homeserver-url: ${{ secrets.HOMESERVER }}
