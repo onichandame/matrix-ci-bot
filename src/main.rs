@@ -45,23 +45,24 @@ async fn handle() -> anyhow::Result<()> {
     let room = client.join_room_by_id(&room_id).await?;
     log("Found Matrix room", github::LogLevel::Info);
     let event = get_workflow_event()?;
-    let (status_text, status_color) = match event.workflow_run.status {
-        github::WorkflowStatus::Queued => ("Pending", "gray"),
-        github::WorkflowStatus::InProgress => ("Running", "blue"),
+    let (status_icon, status_text) = match event.workflow_run.status {
+        github::WorkflowStatus::Queued => ("⏳", "Pending"),
+        github::WorkflowStatus::InProgress => ("🔄", "Running"),
         github::WorkflowStatus::Completed => match event.workflow_run.conclusion {
-            Some(github::WorkflowConclusion::Success) => ("Succeeded", "green"),
-            Some(github::WorkflowConclusion::Failure) => ("Failed", "red"),
-            None => ("Unknown", "black"),
+            Some(github::WorkflowConclusion::Success) => ("✅", "Succeeded"),
+            Some(github::WorkflowConclusion::Failure) => ("❌", "Failed"),
+            None => ("❔", "Unknown"),
         },
     };
     let fallback_content = format!(
-        "CI Workflow {}
+        "{} CI Workflow {}
     Repo: {}
     Workflow: {}
     Branch: {}
     Commit: {}
     Run: {}
     [ci-run:{}]",
+        status_icon,
         status_text,
         event.workflow_run.repository.name,
         event.workflow_run.name,
@@ -70,15 +71,16 @@ async fn handle() -> anyhow::Result<()> {
         event.workflow_run.html_url,
         event.workflow_run.id
     );
+
     let rich_content = format!(
-        "🛠️ <strong>CI Workflow <span style=\"color:{}\">{}</span></strong><br>
-    • <strong>Repo:</strong> {}<br>
+        "{} <strong>CI Workflow {}</strong><br>
+    • <strong>Repo:</strong> <code>{}</code><br>
     • <strong>Workflow:</strong> {}<br>
     • <strong>Branch:</strong> {}<br>
     • <strong>Commit:</strong> {}<br>
     • <strong>Run:</strong> <a href=\"{}\">{}</a><br><br>
     <code>[ci-run:{}]</code>",
-        status_color,
+        status_icon,
         status_text,
         event.workflow_run.repository.name,
         event.workflow_run.name,
@@ -88,6 +90,7 @@ async fn handle() -> anyhow::Result<()> {
         event.workflow_run.html_url,
         event.workflow_run.id
     );
+
     let content = RoomMessageEventContent::notice_html(fallback_content, rich_content);
     room.send(content).await?;
     log("Workflow status sent", github::LogLevel::Info);
