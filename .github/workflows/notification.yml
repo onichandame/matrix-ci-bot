@@ -3,7 +3,7 @@ name: Notification
 on:
   workflow_run:
     workflows: ["Build with Docker"]
-    branches: ["master", "dev"]
+    branches: ["dev"]
     types: [completed, in_progress, requested]
 
 jobs:
