@@ -13,7 +13,7 @@ jobs:
       - name: Notify Workflow Status to Matrix
         uses: onichandame/matrix-ci-bot@master
         with:
-          room-id: ${{ format('{0}', secrets.ROOM_ID) }}
+          room-id: ${{ secrets.ROOM_ID }}
           homeserver-url: ${{ secrets.HOMESERVER }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}

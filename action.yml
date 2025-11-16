@@ -18,6 +18,6 @@ runs:
   image: "docker://ghcr.io/onichandame/matrix-ci-bot:master"
   env:
     HOME_SERVER: "${{ inputs.homeserver-url }}"
-    ROOM_ID: ${{ format('{0}', inputs.room-id) }}
+    ROOM_ID: "${{ inputs.room-id }}"
     USERNAME: "${{ inputs.username }}"
     PASSWORD: "${{ inputs.password }}"
