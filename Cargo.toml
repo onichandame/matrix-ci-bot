@@ -3,6 +3,9 @@ name = "matrix-ci-bot"
 version = "0.1.0"
 edition = "2024"
 
+[package.metadata.rust-version]
+version = "1.91.1"
+
 [dependencies]
 anyhow = "1.0.100"
 clap = { version = "4.5.51", features = ["derive", "env"] }
