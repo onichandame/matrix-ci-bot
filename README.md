@@ -53,4 +53,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-For questions or issues, please open an issue on GitHub. You can also reach out through the [Matrix room #xiao-oss-general:envs.net](https://matrix.to/#/#xiao-oss-general:envs.net?via=github.com).
+For questions or issues, please open an issue on GitHub. You can also reach out through the [Matrix space #Xiao-OSS:envs.net](https://matrix.to/#/#Xiao-OSS:envs.net?via=github.com).
