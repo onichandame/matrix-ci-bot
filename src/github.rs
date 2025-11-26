@@ -1,5 +1,7 @@
 use core::fmt;
 
+use chrono::Utc;
+
 #[derive(serde::Deserialize)]
 pub(crate) struct GithubEvent {
     pub(crate) workflow_run: WorkflowRun,
@@ -8,6 +10,8 @@ pub(crate) struct GithubEvent {
 #[derive(serde::Deserialize)]
 pub(crate) struct WorkflowRun {
     pub(crate) status: WorkflowStatus,
+    pub(crate) run_started_at: Option<chrono::DateTime<Utc>>,
+    pub(crate) completed_at: Option<chrono::DateTime<Utc>>,
     pub(crate) name: String,
     pub(crate) head_branch: String,
     pub(crate) head_sha: String,

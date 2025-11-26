@@ -1,5 +1,6 @@
 use std::process;
 
+use chrono::{DateTime, Utc};
 use clap::Parser;
 use matrix_sdk::{
     Client,
@@ -53,6 +54,17 @@ async fn handle() -> anyhow::Result<()> {
             None => ("❔", "Unknown"),
         },
     };
+    let duration = match (
+        &event.workflow_run.run_started_at,
+        &event.workflow_run.completed_at,
+        event.workflow_run.status,
+    ) {
+        (Some(start), Some(end), github::WorkflowStatus::Completed) => {
+            Some(format_duration(start, end))
+        }
+        _ => None,
+    };
+
     let fallback_content = format!(
         "{} CI Workflow {}
     Repo: {}
@@ -61,6 +73,7 @@ async fn handle() -> anyhow::Result<()> {
     Commit: {}
     Run: {}
     Actor: {}
+    {}
     [ci-run:{}]",
         status_icon,
         status_text,
@@ -70,6 +83,10 @@ async fn handle() -> anyhow::Result<()> {
         event.workflow_run.head_sha,
         event.workflow_run.html_url,
         event.workflow_run.actor.login,
+        duration
+            .as_ref()
+            .map(|d| format!("Duration: {}", d))
+            .unwrap_or_default(),
         event.workflow_run.id
     );
 
@@ -80,8 +97,9 @@ async fn handle() -> anyhow::Result<()> {
     • <strong>Branch:</strong> {}<br>
     • <strong>Commit:</strong> {}<br>
     • <strong>Run:</strong> <a href=\"{}\">{}</a><br>
-    • <strong>Actor:</strong> <code>{}</code><br><br>
-    <code>[ci-run:{}]</code>",
+    • <strong>Actor:</strong> <code>{}</code><br>
+    {}
+    <br><code>[ci-run:{}]</code>",
         status_icon,
         status_text,
         event.workflow_run.repository.html_url,
@@ -92,6 +110,10 @@ async fn handle() -> anyhow::Result<()> {
         event.workflow_run.html_url,
         event.workflow_run.html_url,
         event.workflow_run.actor.login,
+        duration
+            .as_ref()
+            .map(|d| format!("<strong>Duration:</strong> {}<br>", d))
+            .unwrap_or_default(),
         event.workflow_run.id
     );
 
@@ -99,4 +121,14 @@ async fn handle() -> anyhow::Result<()> {
     room.send(content).await?;
     log("Workflow status sent", github::LogLevel::Info);
     Ok(())
+}
+
+fn format_duration(start: &DateTime<Utc>, end: &DateTime<Utc>) -> String {
+    let duration = *end - *start;
+    let total_seconds = duration.num_seconds();
+
+    let minutes = total_seconds / 60;
+    let seconds = total_seconds % 60;
+
+    format!("{}m {}s", minutes, seconds)
 }
