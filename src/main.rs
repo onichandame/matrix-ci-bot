@@ -56,7 +56,7 @@ async fn handle() -> anyhow::Result<()> {
     };
     let duration = match (
         &event.workflow_run.run_started_at,
-        &event.workflow_run.completed_at,
+        &event.workflow_run.updated_at,
         event.workflow_run.status,
     ) {
         (Some(start), Some(end), github::WorkflowStatus::Completed) => {

@@ -11,7 +11,7 @@ pub(crate) struct GithubEvent {
 pub(crate) struct WorkflowRun {
     pub(crate) status: WorkflowStatus,
     pub(crate) run_started_at: Option<chrono::DateTime<Utc>>,
-    pub(crate) completed_at: Option<chrono::DateTime<Utc>>,
+    pub(crate) updated_at: Option<chrono::DateTime<Utc>>,
     pub(crate) name: String,
     pub(crate) head_branch: String,
     pub(crate) head_sha: String,
