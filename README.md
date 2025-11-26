@@ -4,6 +4,8 @@ This is a Matrix CI bot that integrates GitHub Actions with Matrix. It automatic
 
 *No need to change existing workflow definition!*
 
+![example](https://res.cloudinary.com/onichandame/image/upload/v1764129762/matrix-ci-bot-example.png)
+
 ## Features
 
 - Automatically sends GitHub Actions workflow status updates to Matrix rooms
