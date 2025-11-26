@@ -50,6 +50,7 @@ pub(crate) struct Repository {
 pub(crate) enum LogLevel {
     Info,
     Error,
+    Debug,
 }
 
 #[derive(thiserror::Error, Debug)]
@@ -67,6 +68,7 @@ impl fmt::Display for LogLevel {
         let s = match self {
             LogLevel::Info => "info",
             LogLevel::Error => "error",
+            LogLevel::Debug => "debug",
         };
         write!(f, "{}", s)
     }
@@ -79,6 +81,7 @@ pub(crate) fn get_workflow_event() -> Result<GithubEvent, GithubError> {
     }
     let event_path = std::env::var("GITHUB_EVENT_PATH")?;
     let event_str = std::fs::read_to_string(event_path)?;
+    log(&event_str, LogLevel::Debug);
     let event: GithubEvent = serde_json::from_str(&event_str)?;
     Ok(event)
 }
