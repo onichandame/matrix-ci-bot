@@ -25,7 +25,7 @@ It is an ephemeral workflow that does not pollute any existing ones, utilizing [
 
 ## Usage
 
-See [the example workflow](./.github/workflows/notification.yml])
+See [the example workflow](./.github/workflows/notification.yml)
 
 ## Development
 
