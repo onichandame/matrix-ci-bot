@@ -1,5 +1,8 @@
 name: "Matrix CI Bot"
 description: "Sync workflow status to Matrix"
+branding:
+  icon: cast
+  color: green
 inputs:
   room-id: # id of input
     description: "Which room to send to"
